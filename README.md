@@ -47,16 +47,17 @@ Edit files as necessary. Do no change anything in `virtualenv` directory.
 After you have completed making all changes, open up terminal and make sure you are in the `cli` directory and the `virtualenv` is activated.
 
 ### Step 9:
-Add untracked files to git.
+Make new branch.
 
 ```console
-git add .
+git checkout -b very-short-name-specifying-change-in-brief
 ```
 
 ### Step 10:
-Commit your changes.
+Add and Commit your changes.
 
 ```console
+git add .
 git commit -m "Some message briefly explaining your changes"
 ```
 
@@ -64,8 +65,11 @@ git commit -m "Some message briefly explaining your changes"
 Push your changes to your repository.
 
 ```console
-git push
+git push origin very-short-name-specifying-change-in-brief #basically the branch you created in step 9
 ```
+
+### Step 12:
+Go to the link provided by the terminal and create a pull reauest and wait for someone to approve it.
 
 ## Reference Material:
 - [customtkinter module Documentation](https://customtkinter.tomschimansky.com/documentation/)
