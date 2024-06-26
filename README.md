@@ -1,8 +1,6 @@
 # CLI
 
 ## Changelog:
-- ### Branch: Commandsv1
-Adding basic commands and functionalities.
 
 ## Reference Material:
 - [customtkinter module Documentation](https://customtkinter.tomschimansky.com/documentation/)
