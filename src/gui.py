@@ -51,6 +51,3 @@ class TerminalApp(ctk.CTk):
 
         self.output_textbox.see(ctk.END)
 
-if __name__ == "__main__":
-    app = TerminalApp()
-    app.mainloop()
