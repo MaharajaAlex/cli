@@ -9,6 +9,3 @@
 - [moremath module](https://pypi.org/project/moremath/)
 - [How to write a README](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 - [How to use Github](https://docs.github.com/en/get-started/start-your-journey/hello-world)
-
-## Questions:
-For further doubts, contact me on Instagram.
