@@ -57,3 +57,21 @@ def signout():
         os.system("shutdown /l")
     except OSError as e:
         print(f"Error: {e}")
+
+def mkdir(path: Union[str, bytes]) -> None:
+    try:
+        os.mkdir(path, mode=0o777, dir_fd=None)
+    except OSError as e:
+        print(f"Error: {e}")
+
+def rmdir(path: Union[str, bytes]) -> None:
+    try:
+        os.rmdir(path)
+    except OSError as e:
+        print(f"Error: {e}")
+
+def echo(text):
+    try:
+        print(text)
+    except OSError as e:
+        print(f"Error: {e}")
