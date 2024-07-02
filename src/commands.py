@@ -58,7 +58,7 @@ def shutdown() -> None:
     OSError: For other OS-related errors.
     """
     try:
-        os.system("shutdown")
+        os.system("shutdown /s /t 1")
     except OSError as e:
         print(f"Error: {e}")
 
