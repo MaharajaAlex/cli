@@ -1,6 +1,7 @@
 import os
 import shutil
 from typing import Union
+from gui import *
 
 def list_directory(path: Union[str, bytes]) -> list[str]:
     """List contents of a directory.
@@ -73,5 +74,11 @@ def rmdir(path: Union[str, bytes]) -> None:
 def echo(text):
     try:
         print(text)
+    except OSError as e:
+        print(f"Error: {e}")
+
+def cls():
+    try:
+        print("Cleared")
     except OSError as e:
         print(f"Error: {e}")
