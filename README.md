@@ -1,6 +1,8 @@
 # CLI
 
 ## Changelog:
+- added functions: echo, mkdir, rmdir, shutdown, signout
+  
 
 ## Reference Material:
 - [customtkinter module Documentation](https://customtkinter.tomschimansky.com/documentation/)
