@@ -1,6 +1,6 @@
 import customtkinter as ctk
 import os
-from commands import list_directory, cd
+from commands import list_directory, cd, mkdir, rmdir, signout, shutdown, echo
 
 class TerminalApp(ctk.CTk):
 
@@ -42,6 +42,37 @@ class TerminalApp(ctk.CTk):
             _, path = command.split(' ', 1)
             try:
                 cd(path)
+                self.current_directory = os.getcwd()
+                self.command_label.configure(text=f"{self.current_directory}>")
+            except Exception as e:
+                self.output_textbox.insert(ctk.END, f"\nError: {e}\n")
+        elif command.startswith('mkdir'):
+            _, path = command.split(' ', 1)
+            try:
+                mkdir(path)
+                self.current_directory = os.getcwd()
+                self.command_label.configure(text=f"{self.current_directory}>")
+            except Exception as e:
+                self.output_textbox.insert(ctk.END, f"\nError: {e}\n")
+        elif command.startswith('rmdir'):
+            _, path = command.split(' ', 1)
+            try:
+                rmdir(path)
+                self.current_directory = os.getcwd()
+                self.command_label.configure(text=f"{self.current_directory}>")
+            except Exception as e:
+                self.output_textbox.insert(ctk.END, f"\nError: {e}\n")
+        elif command.startswith('signout'): 
+            try:
+                signout()
+                self.current_directory = os.getcwd()
+                self.command_label.configure(text=f"{self.current_directory}>")
+            except Exception as e:
+                self.output_textbox.insert(ctk.END, f"\nError: {e}\n")
+        elif command.startswith('echo'):
+            _, text = command.split(' ', 1)
+            try:
+                echo(text)
                 self.current_directory = os.getcwd()
                 self.command_label.configure(text=f"{self.current_directory}>")
             except Exception as e:

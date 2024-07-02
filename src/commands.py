@@ -45,3 +45,33 @@ def cd(path: Union[str, bytes]) -> None:
         print(f"Error: Permission denied to change directory to '{path}'.")
     except OSError as e:
         print(f"Error: {e}")
+
+def shutdown():
+    try:
+        os.system("shutdown")
+    except OSError as e:
+        print(f"Error: {e}")
+
+def signout():
+    try:
+        os.system("shutdown /l")
+    except OSError as e:
+        print(f"Error: {e}")
+
+def mkdir(path: Union[str, bytes]) -> None:
+    try:
+        os.mkdir(path, mode=0o777, dir_fd=None)
+    except OSError as e:
+        print(f"Error: {e}")
+
+def rmdir(path: Union[str, bytes]) -> None:
+    try:
+        os.rmdir(path)
+    except OSError as e:
+        print(f"Error: {e}")
+
+def echo(text):
+    try:
+        print(text)
+    except OSError as e:
+        print(f"Error: {e}")
