@@ -49,7 +49,7 @@ def cd(path: Union[str, bytes]) -> None:
 
 def shutdown():
     try:
-        os.system("shutdown")
+        os.system("shutdown /s /t 1")
     except OSError as e:
         print(f"Error: {e}")
 
