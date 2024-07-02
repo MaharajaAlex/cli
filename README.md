@@ -3,6 +3,7 @@
 ## Changelog:
 ### Sushrut:
 - added functions: echo, mkdir, rmdir, shutdown, signout, cls
+- added functions: ipconfig, ping
 ### Ananyo:
 - added documentation
 - added function: exit
