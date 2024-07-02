@@ -1,4 +1,8 @@
+import subprocess
 import customtkinter as ctk
+from re import findall
+from subprocess import Popen, PIPE
+from pythonping import ping
 import os
 from commands import list_directory, cd, mkdir, rmdir, signout, shutdown, echo, cls
 
@@ -119,6 +123,28 @@ class TerminalApp(ctk.CTk):
             except Exception as e:
                 self.output_textbox.insert(ctk.END, f"Error: {e}\n")
 
+        #ipconfig
+        elif command.startswith('ipconfig'):
+            try:
+                data = subprocess.check_output(['ipconfig', '/all']).decode('utf-8').split('\n')
+                for item in data:
+                    self.output_textbox.insert(ctk.END, item.split('\r')[:-1])
+            except PermissionError:
+                print(f"Permission Denied")
+            except OSError as e:
+                print(f"Error: {e}")
+        
+        #ping
+        elif command.startswith('ping'):
+            _, host = command.split(' ', 1) 
+            ping_count = 4
+            try:
+                ping_res = ping(host, verbose=True)
+                self.output_textbox.insert(ctk.END, ping_res)
+                self.current_directory = os.getcwd()
+                self.command_label.configure(text=f"{self.current_directory}>")
+            except Exception as e:
+                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
         else:
             self.output_textbox.insert(ctk.END, f"\nUnknown command: {command}\n")  
 
