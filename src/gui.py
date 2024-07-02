@@ -69,12 +69,20 @@ class TerminalApp(ctk.CTk):
                 self.command_label.configure(text=f"{self.current_directory}>")
             except Exception as e:
                 self.output_textbox.insert(ctk.END, f"\nError: {e}\n")
+        elif command.startswith('shutdown'): 
+            try:
+                shutdown()
+                self.current_directory = os.getcwd()
+                self.command_label.configure(text=f"{self.current_directory}>")
+            except Exception as e:
+                self.output_textbox.insert(ctk.END, f"\nError: {e}\n")
         elif command.startswith('echo'):
             _, text = command.split(' ', 1)
             try:
                 echo(text)
                 self.current_directory = os.getcwd()
                 self.command_label.configure(text=f"{self.current_directory}>")
+                self.output_textbox.insert(ctk.END, text + "\n")
             except Exception as e:
                 self.output_textbox.insert(ctk.END, f"\nError: {e}\n")
         else:
