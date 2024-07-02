@@ -30,6 +30,7 @@ class TerminalApp(ctk.CTk):
         self.command_entry.delete(0, ctk.END)
         self.output_textbox.insert(ctk.END, f"{self.current_directory}> {command}\n")
         
+        #list   
         if command.startswith('list'):
             _, path = command.split(' ', 1)
             try:
@@ -37,7 +38,7 @@ class TerminalApp(ctk.CTk):
                 for item in contents:
                     self.output_textbox.insert(ctk.END, item + '\n')
             except Exception as e:
-                self.output_textbox.insert(ctk.END, f"\nError: {e}\n")
+                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
 
         #cd
         elif command.startswith('cd'):
@@ -47,7 +48,7 @@ class TerminalApp(ctk.CTk):
                 self.current_directory = os.getcwd()
                 self.command_label.configure(text=f"{self.current_directory}>")
             except Exception as e:
-                self.output_textbox.insert(ctk.END, f"\nError: {e}\n")
+                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
 
         #mkdir
         elif command.startswith('mkdir'):
@@ -57,7 +58,7 @@ class TerminalApp(ctk.CTk):
                 self.current_directory = os.getcwd()
                 self.command_label.configure(text=f"{self.current_directory}>")
             except Exception as e:
-                self.output_textbox.insert(ctk.END, f"\nError: {e}\n")
+                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
 
         #rmdir
         elif command.startswith('rmdir'):
@@ -67,7 +68,7 @@ class TerminalApp(ctk.CTk):
                 self.current_directory = os.getcwd()
                 self.command_label.configure(text=f"{self.current_directory}>")
             except Exception as e:
-                self.output_textbox.insert(ctk.END, f"\nError: {e}\n")
+                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
 
         #signout
         elif command.startswith('signout'): 
@@ -76,7 +77,7 @@ class TerminalApp(ctk.CTk):
                 self.current_directory = os.getcwd()
                 self.command_label.configure(text=f"{self.current_directory}>")
             except Exception as e:
-                self.output_textbox.insert(ctk.END, f"\nError: {e}\n")
+                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
         
         #shutdown
         elif command.startswith('shutdown'): 
@@ -85,7 +86,7 @@ class TerminalApp(ctk.CTk):
                 self.current_directory = os.getcwd()
                 self.command_label.configure(text=f"{self.current_directory}>")
             except Exception as e:
-                self.output_textbox.insert(ctk.END, f"\nError: {e}\n")
+                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
 
         #echo
         elif command.startswith('echo'):
@@ -96,7 +97,7 @@ class TerminalApp(ctk.CTk):
                 self.command_label.configure(text=f"{self.current_directory}>")
                 self.output_textbox.insert(ctk.END, text + "\n")
             except Exception as e:
-                self.output_textbox.insert(ctk.END, f"\nError: {e}\n")
+                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
 
         #cls
         elif command.startswith('cls'):
@@ -106,9 +107,20 @@ class TerminalApp(ctk.CTk):
                 self.command_label.configure(text=f"{self.current_directory}>")
                 self.output_textbox.delete("0.0", ctk.END)
             except Exception as e:
-                self.output_textbox.insert(ctk.END, f"\nError: {e}\n")
+                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
+
+        #exit
+        elif command.startswith('exit'):
+            try:
+                self.destroy()
+                self.current_directory = os.getcwd()
+                self.command_label.configure(text=f"{self.current_directory}>")
+                self.output_textbox.delete("0.0", ctk.END)
+            except Exception as e:
+                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
+
         else:
-            self.output_textbox.insert(ctk.END, f"\nUnknown command: {command}\n")
+            self.output_textbox.insert(ctk.END, f"\nUnknown command: {command}\n")  
 
         self.output_textbox.see(ctk.END)
 

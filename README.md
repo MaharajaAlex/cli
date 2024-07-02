@@ -1,9 +1,11 @@
 # CLI
 
 ## Changelog:
-- added functions: echo, mkdir, rmdir, shutdown, signout
-- added cls function
-  
+### Sushrut:
+- added functions: echo, mkdir, rmdir, shutdown, signout, cls
+### Ananyo:
+- added documentation
+- added function: exit
 
 ## Reference Material:
 - [customtkinter module Documentation](https://customtkinter.tomschimansky.com/documentation/)
