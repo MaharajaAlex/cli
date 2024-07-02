@@ -2,6 +2,7 @@
 
 ## Changelog:
 - added functions: echo, mkdir, rmdir, shutdown, signout
+- added cls function
   
 
 ## Reference Material:
