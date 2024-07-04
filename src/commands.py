@@ -210,3 +210,19 @@ def help(filepath: str) -> Union[str, Exception]:
         print(f"Error: The file '{filepath}' was not found.")
     except Exception as e:
         print(f"An error occurred: {e}")
+
+def tasklist() -> None:
+    """
+    Displays a list of all current tasks.
+    """
+    try:
+        result = subprocess.run(["tasklist"], capture_output=True, text=True)
+        return result
+    except Exception as e:
+        print(e)
+
+def taskkill(process: str):
+    try:
+        subprocess.run(["taskkill", "/F", "/IM", process], check=True)
+    except subprocess.CalledProcessError as e:
+        print(e)

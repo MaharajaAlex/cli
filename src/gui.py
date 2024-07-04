@@ -1,6 +1,6 @@
 import os
 import customtkinter as ctk
-from commands import list_directory, cd, mkdir, rmdir, signout, shutdown, echo, cls, ipconfig, ping_func, help
+from commands import list_directory, cd, mkdir, rmdir, signout, shutdown, echo, cls, ipconfig, ping_func, help, tasklist, taskkill
 
 class TerminalApp(ctk.CTk):
     """A custom CLI application using customtkinter."""
@@ -59,6 +59,10 @@ class TerminalApp(ctk.CTk):
                 self.handle_ping(command)
             elif command.startswith('help'):
                 self.handle_help(r'C:\Users\chirbhat.ORADEV\Desktop\Python\cli\src\help.txt')
+            elif command.startswith('tasklist'):
+                self.handle_tasklist()
+            elif command.startswith('taskkill'):
+                self.handle_taskkill(command)
             else:
                 self.output_textbox.insert(ctk.END, f"\nUnknown command: {command}\n")
         except Exception as e:
@@ -153,5 +157,21 @@ class TerminalApp(ctk.CTk):
         """Handle the 'help' command."""
         help_command = help(filepath)
         self.current_directory = os.getcwd()
-        self.command_label.configure(text=f"{self.current_directory}>")
+        self.command_label.configure(text=f"\n{self.current_directory}>")
         self.output_textbox.insert(ctk.END, help_command)
+
+    def handle_tasklist(self) -> None:
+        """Handle the 'tasklist' command."""
+        tasks = tasklist()
+        self.current_directory = os.getcwd()
+        self.command_label.configure(text=f"\n{self.current_directory}>")
+        self.output_textbox.insert(ctk.END, tasks)
+
+    def handle_taskkill(self, command: str) -> None:
+        """Handle the 'taskkill' command."""
+        process_list = command.split(' ', 1)
+        for process in process_list:
+            task = taskkill(process)
+        self.current_directory = os.getcwd()
+        self.command_label.configure(text=f"\n{self.current_directory}>")
+        self.output_textbox.insert(ctk.END, f"{task} killed successfully.")

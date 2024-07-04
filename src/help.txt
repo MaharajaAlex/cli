@@ -10,6 +10,8 @@ ipconfig   - Display IP configuration details.
 ping       - Ping a host to check connectivity.
 exit       - Close the CLI.
 help       - Display a list of all available commands.
+tasklist   - Display all current tasks.
+taskkill   - Terminates the mentioned task.
 
 Examples:
   list        - list
@@ -24,3 +26,5 @@ Examples:
   ping        - ping <host>
   exit        - exit
   help        - help
+  tasklist    - tasklist
+  taskkill    - taskkill <process_name>
