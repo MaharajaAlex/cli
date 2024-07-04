@@ -1,0 +1,30 @@
+list       - List the contents of a directory.
+cd         - Change the current working directory to the given path.
+mkdir      - Create a new directory.
+rmdir      - Remove an existing directory.
+signout    - Sign out the current user.
+shutdown   - Shut down the system.
+echo       - Display user input text.
+cls        - Clear the screen.
+ipconfig   - Display IP configuration details.
+ping       - Ping a host to check connectivity.
+exit       - Close the CLI.
+help       - Display a list of all available commands.
+tasklist   - Display all current tasks.
+taskkill   - Terminates the mentioned task.
+
+Examples:
+  list        - list
+  cd          - cd <path>
+  mkdir       - mkdir <directory_name>
+  rmdir       - rmdir <directory_name>
+  signout     - signout
+  shutdown    - shutdown
+  echo        - echo <text>
+  cls         - cls
+  ipconfig    - ipconfig
+  ping        - ping <host>
+  exit        - exit
+  help        - help
+  tasklist    - tasklist
+  taskkill    - taskkill <process_name>

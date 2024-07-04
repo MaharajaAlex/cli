@@ -1,6 +1,6 @@
 import os
-import shutil
 import subprocess
+from pythonping import ping
 from typing import Union, List
 from gui import *
 
@@ -191,3 +191,38 @@ def ping_func(host: str) -> Union[str, Exception]:
         return ping_res
     except Exception as e:
         return e
+
+def help(filepath: str) -> Union[str, Exception]:
+    """
+    Displays a list of all available commands.
+
+    Parameters:
+        filepath (str): The path of the file where the commands details are stored.
+
+    Returns:
+        Union[str, Exception]: The result of the help command or an exception if it fails.
+    """
+    try:
+        with open(filepath, 'r') as file:
+            help_text = file.read()
+        return help_text
+    except FileNotFoundError:
+        print(f"Error: The file '{filepath}' was not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+def tasklist() -> None:
+    """
+    Displays a list of all current tasks.
+    """
+    try:
+        result = subprocess.run(["tasklist"], capture_output=True, text=True)
+        return result
+    except Exception as e:
+        print(e)
+
+def taskkill(process: str):
+    try:
+        subprocess.run(["taskkill", "/F", "/IM", process], check=True)
+    except subprocess.CalledProcessError as e:
+        print(e)
