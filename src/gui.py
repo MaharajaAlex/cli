@@ -1,21 +1,22 @@
+import os
 import subprocess
 import customtkinter as ctk
-from re import findall
-from subprocess import Popen, PIPE
 from pythonping import ping
-import os
-from commands import list_directory, cd, mkdir, rmdir, signout, shutdown, echo, cls
+from commands import list_directory, cd, mkdir, rmdir, signout, shutdown, echo, cls, ipconfig, ping_func
 
 class TerminalApp(ctk.CTk):
+    """A custom CLI application using customtkinter."""
 
     def __init__(self):
+        """Initialize the CLI application."""
         super().__init__()
-
         self.title("CLI")
         self.geometry("800x600")
-
         self.current_directory = os.getcwd()
+        self.create_widgets()
 
+    def create_widgets(self) -> None:
+        """Create and pack the widgets for the application."""
         self.output_textbox = ctk.CTkTextbox(self, wrap=ctk.WORD)
         self.output_textbox.pack(padx=20, pady=20, fill="both", expand=True)
 
@@ -29,124 +30,121 @@ class TerminalApp(ctk.CTk):
         self.command_entry.pack(side=ctk.LEFT, padx=10, fill="x", expand=True)
         self.command_entry.bind("<Return>", self.execute_command)
 
-    def execute_command(self, event=None):
+    def execute_command(self, event=None) -> None:
+        """Execute the command entered by the user."""
         command = self.command_entry.get()
         self.command_entry.delete(0, ctk.END)
         self.output_textbox.insert(ctk.END, f"{self.current_directory}> {command}\n")
         
-        #list   
-        if command.startswith('list'):
-            _, path = command.split(' ', 1)
-            try:
-                contents = list_directory(path)
-                for item in contents:
-                    self.output_textbox.insert(ctk.END, item + '\n')
-            except Exception as e:
-                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
-
-        #cd
-        elif command.startswith('cd'):
-            _, path = command.split(' ', 1)
-            try:
-                cd(path)
-                self.current_directory = os.getcwd()
-                self.command_label.configure(text=f"{self.current_directory}>")
-            except Exception as e:
-                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
-
-        #mkdir
-        elif command.startswith('mkdir'):
-            _, path = command.split(' ', 1)
-            try:
-                mkdir(path)
-                self.current_directory = os.getcwd()
-                self.command_label.configure(text=f"{self.current_directory}>")
-            except Exception as e:
-                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
-
-        #rmdir
-        elif command.startswith('rmdir'):
-            _, path = command.split(' ', 1)
-            try:
-                rmdir(path)
-                self.current_directory = os.getcwd()
-                self.command_label.configure(text=f"{self.current_directory}>")
-            except Exception as e:
-                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
-
-        #signout
-        elif command.startswith('signout'): 
-            try:
-                signout()
-                self.current_directory = os.getcwd()
-                self.command_label.configure(text=f"{self.current_directory}>")
-            except Exception as e:
-                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
+        try:
+            if command.startswith('list'):
+                self.handle_list(command)
+            elif command.startswith('cd'):
+                self.handle_cd(command)
+            elif command.startswith('mkdir'):
+                self.handle_mkdir(command)
+            elif command.startswith('rmdir'):
+                self.handle_rmdir(command)
+            elif command.startswith('signout'):
+                self.handle_signout()
+            elif command.startswith('shutdown'):
+                self.handle_shutdown()
+            elif command.startswith('echo'):
+                self.handle_echo(command)
+            elif command.startswith('cls'):
+                self.handle_cls()
+            elif command.startswith('exit'):
+                self.handle_exit()
+            elif command.startswith('ipconfig'):
+                self.handle_ipconfig()
+            elif command.startswith('ping'):
+                self.handle_ping(command)
+            else:
+                self.output_textbox.insert(ctk.END, f"\nUnknown command: {command}\n")
+        except Exception as e:
+            self.output_textbox.insert(ctk.END, f"Error: {e}\n")
         
-        #shutdown
-        elif command.startswith('shutdown'): 
-            try:
-                shutdown()
-                self.current_directory = os.getcwd()
-                self.command_label.configure(text=f"{self.current_directory}>")
-            except Exception as e:
-                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
-
-        #echo
-        elif command.startswith('echo'):
-            _, text = command.split(' ', 1)
-            try:
-                echo(text)
-                self.current_directory = os.getcwd()
-                self.command_label.configure(text=f"{self.current_directory}>")
-                self.output_textbox.insert(ctk.END, text + "\n")
-            except Exception as e:
-                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
-
-        #cls
-        elif command.startswith('cls'):
-            try:
-                cls()
-                self.current_directory = os.getcwd()
-                self.command_label.configure(text=f"{self.current_directory}>")
-                self.output_textbox.delete("0.0", ctk.END)
-            except Exception as e:
-                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
-
-        #exit
-        elif command.startswith('exit'):
-            try:
-                self.destroy()
-                self.current_directory = os.getcwd()
-                self.command_label.configure(text=f"{self.current_directory}>")
-                self.output_textbox.delete("0.0", ctk.END)
-            except Exception as e:
-                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
-
-        #ipconfig
-        elif command.startswith('ipconfig'):
-            try:
-                data = subprocess.check_output(['ipconfig', '/all']).decode('utf-8').split('\n')
-                for item in data:
-                    self.output_textbox.insert(ctk.END, item.split('\r')[:-1])
-            except PermissionError:
-                print(f"Permission Denied")
-            except OSError as e:
-                print(f"Error: {e}")
-        
-        #ping
-        elif command.startswith('ping'):
-            _, host = command.split(' ', 1) 
-            ping_count = 4
-            try:
-                ping_res = ping(host, verbose=True)
-                self.output_textbox.insert(ctk.END, ping_res)
-                self.current_directory = os.getcwd()
-                self.command_label.configure(text=f"{self.current_directory}>")
-            except Exception as e:
-                self.output_textbox.insert(ctk.END, f"Error: {e}\n")
-        else:
-            self.output_textbox.insert(ctk.END, f"\nUnknown command: {command}\n")  
-
         self.output_textbox.see(ctk.END)
 
+    def handle_list(self, command: str) -> None:
+        """Handle the 'list' command."""
+        _, path = command.split(' ', 1)
+        contents = list_directory(path)
+        for item in contents:
+            self.output_textbox.insert(ctk.END, item + '\n')
+
+    def handle_cd(self, command: str) -> None:
+        """Handle the 'cd' command."""
+        _, path = command.split(' ', 1)
+        cd(path)
+        self.current_directory = os.getcwd()
+        self.command_label.configure(text=f"{self.current_directory}>")
+
+    def handle_mkdir(self, command: str) -> None:
+        """Handle the 'mkdir' command."""
+        _, path = command.split(' ', 1)
+        mkdir(path)
+        self.current_directory = os.getcwd()
+        self.command_label.configure(text=f"{self.current_directory}>")
+
+    def handle_rmdir(self, command: str) -> None:
+        """Handle the 'rmdir' command."""
+        _, path = command.split(' ', 1)
+        rmdir(path)
+        self.current_directory = os.getcwd()
+        self.command_label.configure(text=f"{self.current_directory}>")
+
+    def handle_signout(self) -> None:
+        """Handle the 'signout' command."""
+        signout()
+        self.current_directory = os.getcwd()
+        self.command_label.configure(text=f"{self.current_directory}>")
+
+    def handle_shutdown(self) -> None:
+        """Handle the 'shutdown' command."""
+        shutdown()
+        self.current_directory = os.getcwd()
+        self.command_label.configure(text=f"{self.current_directory}>")
+
+    def handle_echo(self, command: str) -> None:
+        """Handle the 'echo' command."""
+        _, text = command.split(' ', 1)
+        echo(text)
+        self.current_directory = os.getcwd()
+        self.command_label.configure(text=f"{self.current_directory}>")
+        self.output_textbox.insert(ctk.END, text + "\n")
+
+    def handle_cls(self) -> None:
+        """Handle the 'cls' command."""
+        cls()
+        self.current_directory = os.getcwd()
+        self.command_label.configure(text=f"{self.current_directory}>")
+        self.output_textbox.delete("0.0", ctk.END)
+
+    def handle_exit(self) -> None:
+        """Handle the 'exit' command."""
+        self.destroy()
+        self.current_directory = os.getcwd()
+        self.command_label.configure(text=f"{self.current_directory}>")
+        self.output_textbox.delete("0.0", ctk.END)
+
+    def handle_ipconfig(self) -> None:
+        """Handle the 'ipconfig' command."""
+        stuff = ipconfig()
+        if stuff:
+            self.output_textbox.delete("0.0", ctk.END)
+        for text in stuff:
+            self.output_textbox.insert(ctk.END, f"{text}\n")
+        self.current_directory = os.getcwd()
+        self.command_label.configure(text=f"{self.current_directory}>")
+
+    def handle_ping(self, command: str) -> None:
+        """Handle the 'ping' command."""
+        try:
+            _, host = command.split(' ', 1)
+            response = ping_func(host)
+            self.output_textbox.insert(ctk.END, response)
+        except ValueError:
+            self.output_textbox.insert(ctk.END, "No host provided.\n")
+        self.current_directory = os.getcwd()
+        self.command_label.configure(text=f"{self.current_directory}>")

@@ -1,9 +1,11 @@
 import os
 import shutil
-from typing import Union
+import subprocess
+from typing import Union, List
 from gui import *
 
-def list_directory(path: Union[str, bytes]) -> list[str]:
+
+def list_directory(path: Union[str, bytes]) -> List[str]:
     """List contents of a directory.
     
     Parameters:
@@ -12,6 +14,9 @@ def list_directory(path: Union[str, bytes]) -> list[str]:
     Raises:
     FileNotFoundError: If the specified path does not exist.
     PermissionError: If the permission to change the directory is denied.
+    
+    Returns:
+    List[str]: List of directory contents.
     """
     try:
         return os.listdir(path)
@@ -21,6 +26,7 @@ def list_directory(path: Union[str, bytes]) -> list[str]:
         raise PermissionError(f"Permission denied: '{path}'")
     except Exception as e:
         raise RuntimeError(f"Failed to list directory '{path}': {e}")
+
 
 def cd(path: Union[str, bytes]) -> None:
     """
@@ -47,6 +53,7 @@ def cd(path: Union[str, bytes]) -> None:
     except OSError as e:
         print(f"Error: {e}")
 
+
 def shutdown() -> None:
     """
     Shutdown the system.
@@ -61,6 +68,7 @@ def shutdown() -> None:
         os.system("shutdown /s /t 1")
     except OSError as e:
         print(f"Error: {e}")
+
 
 def signout() -> None:
     """
@@ -77,6 +85,7 @@ def signout() -> None:
     except OSError as e:
         print(f"Error: {e}")
 
+
 def mkdir(path: Union[str, bytes]) -> None:
     """
     Make a new directory.
@@ -88,9 +97,10 @@ def mkdir(path: Union[str, bytes]) -> None:
     OSError: For other OS-related errors.
     """
     try:
-        os.mkdir(path, mode=0o777, dir_fd=None)
+        os.mkdir(path, mode=0o777)
     except OSError as e:
         print(f"Error: {e}")
+
 
 def rmdir(path: Union[str, bytes]) -> None:
     """
@@ -107,7 +117,8 @@ def rmdir(path: Union[str, bytes]) -> None:
     except OSError as e:
         print(f"Error: {e}")
 
-def echo(text: Union[str, bytes]):
+
+def echo(text: Union[str, bytes]) -> None:
     """
     Display user input text.
     
@@ -122,7 +133,8 @@ def echo(text: Union[str, bytes]):
     except OSError as e:
         print(f"Error: {e}")
 
-def cls():
+
+def cls() -> None:
     """
     Clear the screen.
     
@@ -136,3 +148,46 @@ def cls():
         print("Cleared")
     except OSError as e:
         print(f"Error: {e}")
+
+
+def ipconfig() -> List[str]:
+    """
+    Get the IP configuration details.
+
+    Parameters:
+    None
+    
+    Returns:
+    List[str]: The IP configuration details.
+
+    Raises:
+    PermissionError: If the permission to access the details is denied.
+    OSError: For other OS-related errors.
+    """
+    try:
+        data = subprocess.check_output(['ipconfig', '/all']).decode('utf-8').split('\n')
+        output = []
+        for item in data:
+            output.extend(item.split('\r')[:-1])
+        return output
+    except PermissionError:
+        print("Permission Denied")
+    except OSError as e:
+        print(f"Error: {e}")
+
+
+def ping_func(host: str) -> Union[str, Exception]:
+    """
+    Ping a host.
+
+    Parameters:
+    host (str): The host to be pinged.
+
+    Returns:
+    Union[str, Exception]: The result of the ping or an exception if it fails.
+    """
+    try:
+        ping_res = ping(host, verbose=True)
+        return ping_res
+    except Exception as e:
+        return e
