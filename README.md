@@ -10,18 +10,20 @@
 - added function: exit
 - fixed the display not working problem (for ipconfig and ping)
 - reorganized the code and made it more efficient and organized
+- working on help, taskkill, tasklist
 
 ## To-do list:
 
 | Command      | Status | What it does |
 |--------------|--------|--------------|
+|help          |**IN PROGRESS**|Displays a list of all commands.|
 |copy          |❌      |Copies one or more files to another location.|
 |del           |❌      |Deletes one or more files.|
 |move          |❌      |Moves one or more files from one directory to another directory.|
 |ren           |❌      |Renames a file or files.|
 |type          |❌      |Displays the contents of a text file.|
-|taskkill      |❌      |Terminates a task or process by its process ID (PID) or image name.|
-|tasklist      |❌      |Displays a list of currently running processes on the local or remote machine.|
+|taskkill      |**IN PROGRESS**|Terminates a task or process by its process ID (PID) or image name.|
+|tasklist      |**IN PROGRESS**|Displays a list of currently running processes on the local or remote machine.|
 |chkdsk        |❌      |Checks a disk and displays a status report.|
 |attrib        |❌      |Displays or changes file attributes.|
 |sfc           |❌      |Scans and verifies the integrity of all protected system files and replaces incorrect versions with correct Microsoft versions.|
