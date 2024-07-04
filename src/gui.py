@@ -1,8 +1,6 @@
 import os
-import subprocess
 import customtkinter as ctk
-from pythonping import ping
-from commands import list_directory, cd, mkdir, rmdir, signout, shutdown, echo, cls, ipconfig, ping_func
+from commands import list_directory, cd, mkdir, rmdir, signout, shutdown, echo, cls, ipconfig, ping_func, help
 
 class TerminalApp(ctk.CTk):
     """A custom CLI application using customtkinter."""
@@ -59,6 +57,8 @@ class TerminalApp(ctk.CTk):
                 self.handle_ipconfig()
             elif command.startswith('ping'):
                 self.handle_ping(command)
+            elif command.startswith('help'):
+                self.handle_help(r'C:\Users\chirbhat.ORADEV\Desktop\Python\cli\src\help.txt')
             else:
                 self.output_textbox.insert(ctk.END, f"\nUnknown command: {command}\n")
         except Exception as e:
@@ -148,3 +148,10 @@ class TerminalApp(ctk.CTk):
             self.output_textbox.insert(ctk.END, "No host provided.\n")
         self.current_directory = os.getcwd()
         self.command_label.configure(text=f"{self.current_directory}>")
+
+    def handle_help(self, filepath: str) -> None:
+        """Handle the 'help' command."""
+        help_command = help(filepath)
+        self.current_directory = os.getcwd()
+        self.command_label.configure(text=f"{self.current_directory}>")
+        self.output_textbox.insert(ctk.END, help_command)
