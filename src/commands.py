@@ -221,6 +221,39 @@ def tasklist() -> None:
     except Exception as e:
         print(e)
 
+def del_file(path: Union[str, bytes]) -> None:
+    """
+    Deletes a certain file 
+    """
+    try:
+        os.remove(path)
+    except PermissionError:
+        print("Permission Denied.")
+    except OSError as e:
+        print(f"Error : {e}")
+
+def move(path1: Union[str, bytes], path2: Union[str, bytes]) -> None:
+    """
+    Changes the path of a file to the given path
+    """
+    try:
+        os.replace(path1, path2)
+    except PermissionError:
+        print("Permission Denied.")
+    except OSError as e:
+        print(f"Error : {e}")
+    
+def rename(path1: Union[str, bytes], path2: Union[str, bytes]) -> None:
+    """
+    Changes the path of a file to the given path
+    """
+    try:
+        os.rename(path1, path2)
+    except PermissionError:
+        print("Permission Denied.")
+    except OSError as e:
+        print(f"Error : {e}")
+
 def taskkill(process: str):
     try:
         subprocess.run(["taskkill", "/F", "/IM", process], check=True)
