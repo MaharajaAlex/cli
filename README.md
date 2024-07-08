@@ -20,8 +20,8 @@
 |help          |✅|Displays a list of all commands.|
 |copy          |❌      |Copies one or more files to another location.|
 |del           |❌      |Deletes one or more files.|
-|move          |❌      |Moves one or more files from one directory to another directory.|
-|ren           |❌      |Renames a file or files.|
+|move          |**IN PROGRESS**      |Moves one or more files from one directory to another directory.|
+|ren           |✅      |Renames a file or files.|
 |type          |❌      |Displays the contents of a text file.|
 |taskkill      |**IN PROGRESS**|Terminates a task or process by its process ID (PID) or image name.|
 |tasklist      |✅|Displays a list of currently running processes on the local or remote machine.|
