@@ -1,6 +1,6 @@
 import os
 import customtkinter as ctk
-from commands import list_directory, cd, mkdir, rmdir, signout, shutdown, echo, cls, ipconfig, ping_func, help, tasklist, taskkill
+from commands import list_directory, cd, mkdir, move, rename, rmdir, signout, shutdown, echo, cls, ipconfig, ping_func, help, tasklist, taskkill, del_file
 
 class TerminalApp(ctk.CTk):
     """A custom CLI application using customtkinter."""
@@ -63,6 +63,12 @@ class TerminalApp(ctk.CTk):
                 self.handle_tasklist()
             elif command.startswith('taskkill'):
                 self.handle_taskkill(command)
+            elif command.startswith('del_file'):
+                self.handle_delfile(command)
+            elif command.startswith('move'):
+                self.handle_move(command)
+            elif command.startswith('ren'):
+                self.handle_ren(command)
             else:
                 self.output_textbox.insert(ctk.END, f"\nUnknown command: {command}\n")
         except Exception as e:
@@ -83,6 +89,36 @@ class TerminalApp(ctk.CTk):
         cd(path)
         self.current_directory = os.getcwd()
         self.command_label.configure(text=f"{self.current_directory}>")
+
+    def handle_delfile(self, command: str) -> None:
+        """Handle the 'del_file' command."""
+        _, path = command.split(' ', 1)
+        del_file(path)
+        self.current_directory = os.getcwd()
+        self.command_label.configure(text=f"{self.current_directory}>")
+        self.output_textbox.insert(ctk.END, "File deleted" + "\n")
+
+    def handle_move(self, command: str) -> None:
+        """Handle the 'del_file' command.""" 
+        gay = command.split(" ", 3)
+        print(gay)
+        path1 = gay[1]
+        path2 = gay[2]
+        move(path1, path2)
+        self.current_directory = os.getcwd()
+        self.command_label.configure(text=f"{self.current_directory}>")
+        self.output_textbox.insert(ctk.END, "File moved to: "+ {path2} + "\n")
+
+    def handle_ren(self, command: str) -> None:
+        """Handle the 'del_file' command."""
+        gay = command.split(" ", 3)
+        print(gay)
+        path1 = gay[1]
+        path2 = gay[2]
+        rename(path1, path2)
+        self.current_directory = os.getcwd()
+        self.command_label.configure(text=f"{self.current_directory}>")
+        self.output_textbox.insert(ctk.END, "File moved to: "+ {path2} + "\n")
 
     def handle_mkdir(self, command: str) -> None:
         """Handle the 'mkdir' command."""
